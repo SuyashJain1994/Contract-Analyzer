@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <!-- ts=1753950524690 --> 
+  
+  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.174.0/three.module.min.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Geneva-12", "ArkPixel", "SerenityOS-Emoji", "sans-serif"],
+            mono: ["Monaco", "ArkPixel", "SerenityOS-Emoji", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+            serif: ["Mondwest", "Yu Mincho", "Hiragino Mincho Pro", "Georgia", "Palatino", "SerenityOS-Emoji", "serif"],
+            emoji: ["SerenityOS-Emoji", "AppleColorEmoji", "AppleColorEmojiFallback"],
+            'geneva': ["Geneva-12", "ArkPixel", "SerenityOS-Emoji", "system-ui", "-apple-system", "sans-serif"],
+            'mondwest': ["Mondwest", "Yu Mincho", "Hiragino Mincho Pro", "Georgia", "Palatino", "Yu Mincho", "Hiragino Mincho Pro", "serif"],
+            'neuebit': ["NeueBit", "ArkPixel", "SerenityOS-Emoji", "Helvetica", "Arial", "Hiragino Sans", "sans-serif"],
+            'monaco': ["Monaco", "ArkPixel", "SerenityOS-Emoji", "monospace"],
+            'jacquard': ["Jacquard", "Yu Mincho", "Hiragino Mincho Pro", "Georgia", "Palatino", "serif"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      overflow-x: auto; /* Allow horizontal scroll if content overflows */
+      width: 100%;
+      height: 100%;
+      max-width: 100%; /* Prevent body from exceeding viewport width */
+    }
+    /* Ensure pre doesn't break layout */
+    pre {
+      white-space: pre-wrap; /* Allow wrapping */
+      word-break: break-all; /* Break long words */
+    }
+  </style>
+  
+  <!-- Move click interceptor script to head for earlier execution -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('click', function(event) {
+        var targetElement = event.target.closest('a');
+        // Only intercept if it's a valid link and NOT inside the draggable toolbar
+        if (targetElement && targetElement.href && !targetElement.closest('[data-drag-controls]')) {
+          event.preventDefault();
+          event.stopPropagation();
+          try {
+            // Resolve relative URLs against the document's base URI (if set) or window location
+            const absoluteUrl = new URL(targetElement.getAttribute('href'), document.baseURI || window.location.href).href;
+            // Use a specific message type for AI HTML navigation
+            window.parent.postMessage({ type: 'aiHtmlNavigation', url: absoluteUrl }, '*');
+            console.log('Intercepted link click:', absoluteUrl);
+          } catch (e) { console.error("Error resolving/posting URL:", e); }
+        }
+      }, true); // Use capture phase to intercept early
+    });
+    
+    // Also add immediate execution version for documents that load quickly
+    // This helps ensure we don't miss any clicks during initial page load
+    (function() {
+      document.addEventListener('click', function(event) {
+        var targetElement = event.target.closest('a');
+        // Only intercept if it's a valid link and NOT inside the draggable toolbar
+        if (targetElement && targetElement.href && !targetElement.closest('[data-drag-controls]')) {
+          event.preventDefault();
+          event.stopPropagation();
+          try {
+            // Resolve relative URLs against the document's base URI (if set) or window location
+            const absoluteUrl = new URL(targetElement.getAttribute('href'), document.baseURI || window.location.href).href;
+            // Use a specific message type for AI HTML navigation
+            window.parent.postMessage({ type: 'aiHtmlNavigation', url: absoluteUrl }, '*');
+            console.log('Intercepted link click (immediate handler):', absoluteUrl);
+          } catch (e) { console.error("Error resolving/posting URL:", e); }
+        }
+      }, true); // Use capture phase to intercept early
+    })();
+  </script>
+ 
+</head>
+<body>
+  <!-- TITLE: LegalAI Pro - Advanced Contract Intelligence -->
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+  <!-- Header -->
+  <nav class="bg-black/20 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <div class="text-2xl">⚖️</div>
+          <h1 class="text-xl font-neuebit font-bold text-white">LegalAI Pro</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <span class="text-sm text-gray-300 font-geneva">suyash@lawfirm.com</span>
+          <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-geneva font-bold">S</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto p-6">
+    <!-- Stats Dashboard -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+        <div class="text-3xl mb-2">📊</div>
+        <div class="text-2xl font-neuebit font-bold text-white">1,247</div>
+        <div class="text-sm text-gray-300 font-geneva">Contracts Analyzed</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+        <div class="text-3xl mb-2">🚨</div>
+        <div class="text-2xl font-neuebit font-bold text-red-400">23</div>
+        <div class="text-sm text-gray-300 font-geneva">High Risk Detected</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+        <div class="text-3xl mb-2">💰</div>
+        <div class="text-2xl font-neuebit font-bold text-green-400">$2.3M</div>
+        <div class="text-sm text-gray-300 font-geneva">Risk Avoided</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+        <div class="text-3xl mb-2">⚡</div>
+        <div class="text-2xl font-neuebit font-bold text-yellow-400">89%</div>
+        <div class="text-sm text-gray-300 font-geneva">Time Saved</div>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+      <!-- Main Analysis Panel -->
+      <div class="lg:col-span-2 space-y-6">
+        <!-- Upload Section -->
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-neuebit font-bold text-white">Smart Contract Analysis</h2>
+            <div class="flex space-x-2">
+              <button class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg text-sm font-geneva border border-blue-500/30">Bulk Upload</button>
+              <button class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-lg text-sm font-geneva border border-purple-500/30">AI Compare</button>
+            </div>
+          </div>
+          
+          <div class="border-2 border-dashed border-white/30 rounded-lg p-8 text-center hover:border-blue-400/50 transition-all cursor-pointer group" id="dropzone">
+            <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">📄</div>
+            <p class="text-gray-300 font-geneva mb-2">Drop contracts here or click to browse</p>
+            <p class="text-sm text-gray-400 font-geneva">Supports PDF, DOC, DOCX, TXT • Max 50MB</p>
+            <input type="file" class="hidden" id="fileInput" accept=".pdf,.doc,.docx,.txt" multiple>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4 mt-6">
+            <div>
+              <label class="block text-sm font-geneva font-bold text-gray-300 mb-2">Contract Type</label>
+              <select class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white font-geneva">
+                <option>Employment Agreement</option>
+                <option>Service Contract</option>
+                <option>NDA</option>
+                <option>Lease Agreement</option>
+                <option>Partnership Agreement</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-geneva font-bold text-gray-300 mb-2">Analysis Depth</label>
+              <select class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white font-geneva">
+                <option>Standard Review</option>
+                <option>Deep Analysis</option>
+                <option>Compliance Check</option>
+                <option>Risk Assessment</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Analysis Results -->
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+          <h3 class="text-lg font-neuebit font-bold text-white mb-4">Live Analysis Feed</h3>
+          <div id="analysisStream" class="space-y-3 max-h-64 overflow-y-auto">
+            <div class="flex items-center space-x-3 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+              <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span class="text-green-300 font-geneva text-sm">✅ Standard liability clauses detected</span>
+            </div>
+            <div class="flex items-center space-x-3 p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
+              <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+              <span class="text-yellow-300 font-geneva text-sm">⚠️ Unusual termination notice period (90 days)</span>
+            </div>
+            <div class="flex items-center space-x-3 p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+              <div class="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+              <span class="text-red-300 font-geneva text-sm">🚨 Unlimited indemnification clause found</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-6">
+        <!-- AI Insights -->
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+          <h3 class="text-lg font-neuebit font-bold text-white mb-4">🤖 AI Insights</h3>
+          <div class="space-y-4">
+            <div class="p-4 bg-blue-500/10 rounded-lg border border-blue-500/20">
+              <div class="text-sm font-geneva font-bold text-blue-300 mb-1">Negotiation Tip</div>
+              <div class="text-sm text-gray-300 font-geneva">Consider adding a cap on liability at 12 months of contract value</div>
+            </div>
+            <div class="p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
+              <div class="text-sm font-geneva font-bold text-purple-300 mb-1">Market Benchmark</div>
+              <div class="text-sm text-gray-300 font-geneva">This termination clause is 3x longer than industry standard</div>
+            </div>
+            <div class="p-4 bg-green-500/10 rounded-lg border border-green-500/20">
+              <div class="text-sm font-geneva font-bold text-green-300 mb-1">Compliance</div>
+              <div class="text-sm text-gray-300 font-geneva">✅ GDPR compliant data processing terms</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+          <h3 class="text-lg font-neuebit font-bold text-white mb-4">⚡ Quick Actions</h3>
+          <div class="space-y-3">
+            <button class="w-full p-3 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 rounded-lg font-geneva transition-colors border border-blue-500/30">
+              Generate Summary
+            </button>
+            <button class="w-full p-3 bg-green-500/20 hover:bg-green-500/30 text-green-300 rounded-lg font-geneva transition-colors border border-green-500/30">
+              Create Redlines
+            </button>
+            <button class="w-full p-3 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg font-geneva transition-colors border border-purple-500/30">
+              Export Report
+            </button>
+            <button class="w-full p-3 bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 rounded-lg font-geneva transition-colors border border-orange-500/30">
+              Schedule Review
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+          <h3 class="text-lg font-neuebit font-bold text-white mb-4">📋 Recent Activity</h3>
+          <div class="space-y-3">
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">📄</div>
+              <div>
+                <div class="text-sm font-geneva text-white">Service Agreement.pdf</div>
+                <div class="text-xs text-gray-400 font-geneva">2 hours ago</div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">✅</div>
+              <div>
+                <div class="text-sm font-geneva text-white">NDA Review Complete</div>
+                <div class="text-xs text-gray-400 font-geneva">5 hours ago</div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">🚨</div>
+              <div>
+                <div class="text-sm font-geneva text-white">High Risk Alert</div>
+                <div class="text-xs text-gray-400 font-geneva">1 day ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Simulate real-time analysis
+const analysisStream = document.getElementById('analysisStream');
+const insights = [
+  { type: 'success', icon: '✅', text: 'Payment terms comply with standard practices' },
+  { type: 'warning', icon: '⚠️', text: 'Intellectual property clause needs clarification' },
+  { type: 'error', icon: '🚨', text: 'Force majeure clause missing' },
+  { type: 'success', icon: '✅', text: 'Confidentiality terms are comprehensive' },
+  { type: 'warning', icon: '⚠️', text: 'Governing law jurisdiction unusual for this contract type' }
+];
+
+let insightIndex = 0;
+
+function addInsight() {
+  if (insightIndex >= insights.length) return;
+  
+  const insight = insights[insightIndex];
+  const colorMap = {
+    success: 'green',
+    warning: 'yellow', 
+    error: 'red'
+  };
+  const color = colorMap[insight.type];
+  
+  const div = document.createElement('div');
+  div.className = `flex items-center space-x-3 p-3 bg-${color}-500/10 rounded-lg border border-${color}-500/20 opacity-0 transform translate-y-4`;
+  div.innerHTML = `
+    <div class="w-2 h-2 bg-${color}-400 rounded-full animate-pulse"></div>
+    <span class="text-${color}-300 font-geneva text-sm">${insight.icon} ${insight.text}</span>
+  `;
+  
+  analysisStream.appendChild(div);
+  
+  // Animate in
+  setTimeout(() => {
+    div.classList.remove('opacity-0', 'translate-y-4');
+    div.classList.add('transition-all', 'duration-500');
+  }, 100);
+  
+  insightIndex++;
+  
+  // Remove old insights
+  if (analysisStream.children.length > 5) {
+    analysisStream.removeChild(analysisStream.firstChild);
+  }
+}
+
+// Add insights periodically
+setInterval(addInsight, 3000);
+
+// File upload simulation
+document.getElementById('dropzone').addEventListener('click', () => {
+  document.getElementById('fileInput').click();
+});
+
+document.getElementById('fileInput').addEventListener('change', (e) => {
+  if (e.target.files.length > 0) {
+    // Simulate analysis start
+    analysisStream.innerHTML = `
+      <div class="flex items-center space-x-3 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+        <div class="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+        <span class="text-blue-300 font-geneva text-sm">🔄 Starting analysis of ${e.target.files[0].name}...</span>
+      </div>
+    `;
+    
+    setTimeout(() => {
+      insightIndex = 0;
+      analysisStream.innerHTML = '';
+      addInsight();
+    }, 2000);
+  }
+});
+
+// Drag and drop
+const dropzone = document.getElementById('dropzone');
+dropzone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropzone.classList.add('border-blue-400/50');
+});
+dropzone.addEventListener('dragleave', () => {
+  dropzone.classList.remove('border-blue-400/50');
+});
+dropzone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropzone.classList.remove('border-blue-400/50');
+  // Handle file drop
+});
+</script>
+</body>
+</html>
