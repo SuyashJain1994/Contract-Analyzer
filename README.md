@@ -120,9 +120,11 @@ DATABASE_URL=postgresql://username:password@localhost:5432/contract_analyzer
 ### AI Configuration
 
 ```env
-OPENAI_API_KEY=your-api-key
-OPENAI_MODEL=gpt-4  # or gpt-3.5-turbo for cost savings
+OPENAI_API_KEY=sk-your-openai-api-key-here
+OPENAI_MODEL=gpt-4-turbo  # or gpt-3.5-turbo for cost savings
 ```
+
+**Note**: This application uses OpenAI v1+ API. If you're upgrading from an older version, see `OPENAI_MIGRATION.md` for migration details.
 
 ### Security Settings
 
@@ -195,12 +197,26 @@ For production, implement proper user registration and management.
 
 ## 🔧 Troubleshooting
 
+### OpenAI v1+ Migration Issues
+
+If you're facing OpenAI-related errors, see the detailed migration guide:
+```bash
+# Test your OpenAI setup
+python test_openai.py
+
+# Check migration guide
+cat OPENAI_MIGRATION.md
+```
+
 ### Common Issues
 
 **1. OpenAI API Errors**
 ```bash
 # Check API key configuration
 docker-compose logs web | grep -i openai
+
+# Test OpenAI connection
+python test_openai.py
 ```
 
 **2. Database Connection Issues**

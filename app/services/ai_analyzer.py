@@ -1,4 +1,4 @@
-import openai
+from openai import AsyncOpenAI
 import json
 import logging
 from typing import Dict, List, Any
@@ -17,8 +17,9 @@ class AIAnalyzer:
     def __init__(self):
         if not settings.OPENAI_API_KEY:
             logger.warning("OpenAI API key not configured. AI analysis will not work.")
+            self.client = None
         else:
-            openai.api_key = settings.OPENAI_API_KEY
+            self.client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
     
     async def analyze_contract(
         self, 
@@ -29,7 +30,7 @@ class AIAnalyzer:
     ) -> AnalysisResult:
         """Analyze contract text using AI"""
         try:
-            if not settings.OPENAI_API_KEY:
+            if not self.client:
                 raise AIAnalysisException(
                     "AI analysis not available: OpenAI API key not configured",
                     status_code=503
@@ -161,7 +162,7 @@ class AIAnalyzer:
     async def _call_openai(self, prompt: str) -> str:
         """Call OpenAI API with the analysis prompt"""
         try:
-            response = await openai.ChatCompletion.acreate(
+            response = await self.client.chat.completions.create(
                 model=settings.OPENAI_MODEL,
                 messages=[
                     {
@@ -178,14 +179,36 @@ class AIAnalyzer:
                 timeout=60
             )
             
-            return response.choices[0].message.content
+            content = response.choices[0].message.content
+            if not content:
+                raise AIAnalysisException("Empty response from OpenAI", status_code=503)
+            
+            return content
             
         except Exception as e:
             logger.error(f"OpenAI API error: {str(e)}")
-            raise AIAnalysisException(
-                f"AI service unavailable: {str(e)}",
-                status_code=503
-            )
+            # Check for specific OpenAI error types
+            error_message = str(e)
+            if "rate limit" in error_message.lower():
+                raise AIAnalysisException(
+                    "OpenAI rate limit exceeded. Please try again later.",
+                    status_code=429
+                )
+            elif "insufficient_quota" in error_message.lower():
+                raise AIAnalysisException(
+                    "OpenAI quota exceeded. Please check your OpenAI account.",
+                    status_code=402
+                )
+            elif "invalid_api_key" in error_message.lower():
+                raise AIAnalysisException(
+                    "Invalid OpenAI API key. Please check your configuration.",
+                    status_code=401
+                )
+            else:
+                raise AIAnalysisException(
+                    f"AI service unavailable: {str(e)}",
+                    status_code=503
+                )
     
     def _parse_ai_response(self, response: str) -> Dict[str, Any]:
         """Parse and validate AI response"""
